@@ -1,0 +1,193 @@
+@font-face{
+    src: url(SuperMario256.ttf);
+    font-family: super;
+
+}
+
+body{
+    width:100%;
+    height:100%;
+    margin: 0;
+    padding: 0;
+
+}
+.title{
+    font-family: super;
+}
+
+.principal{
+    width: 100%;
+    height: 100%;
+    background-image: url(unnamed.jpg);
+    background-repeat:no-repeat;
+    background-position:center;
+    background-size: 100% 100%;
+    display: flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+    
+}
+
+#w{
+    border-radius: 50px;
+    margin-bottom: 50px;
+    height: 5vh;
+    outline: none;
+}
+
+#w::placeholder{
+    font-family: super;
+    text-align: center;
+    
+}
+
+#h{
+    border-radius: 50px;
+    margin-bottom: 25px;
+    height: 5vh;
+    outline:none;
+}
+
+#h::placeholder{
+    font-family: super;
+    text-align: center;
+}
+
+.button{
+    border-radius: 50px;
+    background-color: green;
+    width:45px;
+    height:45px;
+    font-family: super;
+    color: white;
+    outline:none;
+}
+
+.mario{
+    height:170px;
+}
+
+.wall{
+    
+    background-image:url('brick2.webp');
+    background-size:100% 100%;
+    background-repeat: no-repeat;
+}
+
+.floor{
+   
+    background-image: url('green.png');
+    background-size:cover;
+    background-repeat: no-repeat;
+
+}
+
+.player{
+   
+    background-position: center;
+    background-size: 50%;
+    background-repeat: no-repeat;
+}
+.direccion1{
+   
+    background:blue;
+}
+
+.winner{
+    
+    background-image: url('win.gif');
+    background-size:100% 100%;
+    background-repeat: no-repeat;
+    background-color: green;
+    background-position:center;
+}
+
+.end{
+    background-color: green;
+    width: 100%;
+    height:100%;
+}
+
+.final{
+    background-image: url('final.webp');
+    width: 100%;
+    height:100%;
+    font-family: super;
+    color: green;
+    font-size:5vh;
+    display:flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
+}
+
+.laberintos{
+    
+    position: absolute;
+    top:0;
+    left:0;
+    z-index:50;
+    width:100%;
+    min-height:100vh;
+    display: grid;
+}
+
+.padre{
+    min-height:100vh;
+}
+
+.default{
+    background: none;
+}
+
+.reload{
+    width:8vh;
+    height:8vh;
+    background-image:url('reload.webp');
+    background-size:cover;
+    background-repeat: no-repeat;
+    border-radius: 50px;
+    margin-top: 35px;
+    outline:none;
+}
+
+.textoFinal{
+    width:auto;
+    height:auto;
+}
+
+.movsFinal{
+    width:auto;
+    height:auto;
+}
+
+.arrow{
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
+}
+
+.imagen1{
+    width:30%;
+    height:30%;
+}
+
+.imagen2{
+    width:30%;
+    height:30%;
+}
+
+.playw{
+    font-family: super;
+}
+
+
+
+
+
+
+
