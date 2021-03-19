@@ -22,7 +22,7 @@ module.exports = {
 	  "react/react-in-jsx-scope": "off",
 	  "react/jsx-filename-extension":"off",
 	  "no-undef":"off",
-	  "react/prop-types":"off"
-	  
+
+
   },
 };

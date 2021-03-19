@@ -27,6 +27,7 @@
         <script src="https://unpkg.com/react@17/umd/react.production.min.js"></script>
         <script src="https://unpkg.com/react-dom@17/umd/react-dom.production.min.js"></script>
         <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+        <script src="https://unpkg.com/prop-types@15.6/prop-types.js"></script>
         <link rel="stylesheet" href="styles.css"
 
     </head>
@@ -49,6 +50,12 @@ const Player = ({ x, y, sprite }) => {
               )
 }
 
+Player.propTypes = {
+  x: PropTypes.number.isRequired,
+  y: PropTypes.number.isRequired,
+  sprite: PropTypes.number.isRequired,
+}
+
 const Winner = () => (<div className="winner" />)
 
 const GameFinished = ({ moves }) => (
@@ -59,8 +66,11 @@ const GameFinished = ({ moves }) => (
               </div>
             )
 
-const App = (props) => {
-              const { w, h } = props
+GameFinished.propTypes = {
+  moves: PropTypes.number.isRequired,
+}
+
+const App = ({ w, h }) => {
               const [laberinto, laberintoState] = React.useState([])
               const [posicionx, setPosicionx] = React.useState(1)
               const [posiciony, setPosiciony] = React.useState(1)
@@ -118,7 +128,7 @@ const App = (props) => {
               }
 
               const dataLaberinto = async () => {
-                const response = await fetch(`http://ubeje.xyz:3001/?type=json&w=${props.w}&h=${props.h}`)
+                const response = await fetch(`http://ubeje.xyz:3001/?type=json&w=${w}&h=${h}`)
                 const data = await response.json()
                 laberintoState(data)
               }
@@ -157,6 +167,11 @@ const App = (props) => {
               )
 };
 
+App.propTypes = {
+  w: PropTypes.number.isRequired,
+  h: PropTypes.number.isRequired,
+}
+
 const Title = () => (<h1 className="title">THE MAZE GAME</h1>)
 
 const PlayMenu = (props) => (
@@ -174,6 +189,10 @@ const PlayMenu = (props) => (
 
               </div>
             )
+
+PlayMenu.propTypes = {
+  changeStatus: PropTypes.func.isRequired,
+}
 
 const Comprobador = () => {
               const [change, setChange] = React.useState(true)
