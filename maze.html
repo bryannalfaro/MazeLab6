@@ -54,7 +54,7 @@ const Winner = () => (<div className="winner" />)
 const GameFinished = ({ moves }) => (
               <div className="final">
                 <div className="textoFinal">BUEN JUEGO</div>
-                <div className="movsFinal">Movimientos: {moves + 1}</div>
+                <div className="movsFinal">{`Movimientos: ${moves + 1}`}</div>
                 <button type="button" onClick={() => { window.location.reload() }} className="reload" aria-label="Reload" />
               </div>
             )
