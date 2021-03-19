@@ -1,6 +1,6 @@
 <!--
     Requerimientos realizados:
-    
+
     (40 puntos) [Criterio subjetivo] Según qué tan interesante es el diseño de su interfaz
     (20 puntos) Por animar al jugador al moverse. Debe mostrar movimiento (o sprites) distinto en cada dirección.
     (5 puntos) Por colocar su css en un archivo aparte (lo que no necesiten para el movimiento)
@@ -14,7 +14,7 @@
 
 -->
 
-<!-- 
+<!--
     Referencia: https://es.reactjs.org/docs/hooks-state.html
                 https://dev.to/adamthedev/beginner-tutorial-react-hooks-change-parent-state-from-within-a-child-component-usestate-2kjh
                 https://www.youtube.com/watch?v=UrpNtB61qyo&t=422s
@@ -28,234 +28,180 @@
         <script src="https://unpkg.com/react-dom@17/umd/react-dom.production.min.js"></script>
         <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
         <link rel="stylesheet" href="styles.css"
-        
+
     </head>
     <body>
         <div id="root"></div>
         <script type="text/babel">
             const htmlRoot = document.getElementById('root')
-            const Wall = () => (<div className="wall"/>)
-            
+            const Wall = () => (<div className="wall" />)
 
-           const Wall2 = () => (<div className="floor"/>)
-           
+const Wall2 = () => (<div className="floor" />)
 
-           const Player = ({x, y, sprite}) => { 
+const Player = ({ x, y, sprite }) => {
+              const mov = {
+                gridColumnStart: x + 1,
+                gridRowStart: y + 1,
+                backgroundImage: `url(${sprite}.png)`,
+              }
+              return (
+                <div style={mov} className="player" />
+              )
+}
 
-                const mov = {
-                    gridColumnStart:x + 1,
-                    gridRowStart:y + 1,
-                    backgroundImage:`url(${sprite}.png)`
-                }          
-                    return (
-                        <div style={mov} className='player'/>
-                    )
-           }
+const Winner = () => (<div className="winner" />)
 
-           const Winner = () => (<div className ="winner"/>)
-           
+const GameFinished = ({ moves }) => (
+              <div className="final">
+                <div className="textoFinal">BUEN JUEGO</div>
+                <div className="movsFinal">Movimientos: {moves + 1}</div>
+                <button type="button" onClick={() => { window.location.reload() }} className="reload" aria-label="Reload" />
+              </div>
+            )
 
-           const GameFinished = ({moves}) => 
-               (
-                   
-                    <div class="final">
-                        <div class="textoFinal">BUEN JUEGO</div>
-                        <div class="movsFinal">Movimientos: {moves + 1}</div>
-                        <button type='button' onClick={() => {location.reload()}} class="reload" aria-label="Reload"/>
-                    </div>
-               )   
-                       
+const App = (props) => {
+              const { w, h } = props
+              const [laberinto, laberintoState] = React.useState([])
+              const [posicionx, setPosicionx] = React.useState(1)
+              const [posiciony, setPosiciony] = React.useState(1)
+              const [contador, setContador] = React.useState(0)
+              const [gano, setGano] = React.useState(false)
+              const [sprite, setSprite] = React.useState(2)
+              const laberintoRef = React.useRef()
 
-           const App = (props) => {
-            
-            
-            const {w, h} = props
+              const laberintos = {
+                gridTemplate: `repeat(${((h) * 2) + 1},auto)/repeat(${((w) * 3) + 1},auto)`,
+              }
 
-            const [laberinto, laberintoState] = React.useState([])
-            const [posicionx, setPosicionx] = React.useState(1)
-            const [posiciony, setPosiciony] = React.useState(1)
-            const [contador, setContador] = React.useState(0)
-            const [gano, setGano] = React.useState(false)
-            const [sprite, setSprite] = React.useState(2)
+              const handleClick = (evento) => {
+                if (evento.key === 'ArrowRight' || evento.key === 'd') {
+                  if (laberinto[posiciony][posicionx + 1] === ' ' || laberinto[posiciony][posicionx + 1] === 'p') {
+                    setPosicionx(posicionx + 1)
+                    setContador(contador + 1)
 
-            const laberintoRef = React.useRef()
-
-            const laberintos = {
-            gridTemplate: `repeat(${((h) * 2) + 1},auto)/repeat(${((w) * 3) + 1},auto)`,
-            }
-
-            const handleClick = (evento) => {
-                
-                if (evento.key === 'ArrowRight' || evento.key === 'd'){
-                    if (laberinto[posiciony][posicionx + 1] === ' ' || laberinto[posiciony][posicionx + 1] === 'p'){
-                        setPosicionx(posicionx + 1)
-                        setContador(contador + 1)
-                        
-                        setSprite(2)
-                    }
-                    else if (laberinto[posiciony][posicionx + 1] === 'g'){
-                        
-                        setGano(true) 
-                        setSprite(5) 
-                    }
-                    
+                    setSprite(2)
+                  } else if (laberinto[posiciony][posicionx + 1] === 'g') {
+                    setGano(true)
+                    setSprite(5)
+                  }
                 }
-                if (evento.key === 'ArrowLeft' || evento.key === 'a'){
-                    if (laberinto[posiciony][posicionx - 1] === ' ' || laberinto[posiciony][posicionx - 1] === 'p'){
-                        setPosicionx(posicionx - 1)
-                        setContador(contador + 1)
-                        setSprite(3)
-                          
-                    }
-                    else if (laberinto[posiciony][posicionx - 1] === 'g'){
-                        
-                        setGano(true) 
-                        setSprite(5) 
-                    }
-                    
+                if (evento.key === 'ArrowLeft' || evento.key === 'a') {
+                  if (laberinto[posiciony][posicionx - 1] === ' ' || laberinto[posiciony][posicionx - 1] === 'p') {
+                    setPosicionx(posicionx - 1)
+                    setContador(contador + 1)
+                    setSprite(3)
+                  } else if (laberinto[posiciony][posicionx - 1] === 'g') {
+                    setGano(true)
+                    setSprite(5)
+                  }
                 }
-                if(evento.key === 'ArrowUp' || evento.key === 'w'){
-                    if (laberinto[posiciony - 1][posicionx] === ' ' || laberinto[posiciony - 1][posicionx] === 'p'){
-                        setPosiciony(posiciony - 1)
-                        setContador(contador + 1)
-                        setSprite(4)
-                        
-                    }
-                    else if (laberinto[posiciony - 1][posicionx] === 'g'){
-                        
-                        setGano(true) 
-                        setSprite(5) 
-                    }
-                    
+                if (evento.key === 'ArrowUp' || evento.key === 'w') {
+                  if (laberinto[posiciony - 1][posicionx] === ' ' || laberinto[posiciony - 1][posicionx] === 'p') {
+                    setPosiciony(posiciony - 1)
+                    setContador(contador + 1)
+                    setSprite(4)
+                  } else if (laberinto[posiciony - 1][posicionx] === 'g') {
+                    setGano(true)
+                    setSprite(5)
+                  }
                 }
-                if (evento.key === 'ArrowDown' || evento.key === 's'){
-                    if (laberinto[posiciony + 1][posicionx] === ' ' || laberinto[posiciony + 1][posicionx] === 'p'){
-                        setPosiciony(posiciony + 1)
-                        setContador(contador + 1)
-                        setSprite(1)
-                        
-                    } 
-                    else if (laberinto[posiciony + 1][posicionx] === 'g'){
+                if (evento.key === 'ArrowDown' || evento.key === 's') {
+                  if (laberinto[posiciony + 1][posicionx] === ' ' || laberinto[posiciony + 1][posicionx] === 'p') {
+                    setPosiciony(posiciony + 1)
+                    setContador(contador + 1)
+                    setSprite(1)
+                  } else if (laberinto[posiciony + 1][posicionx] === 'g') {
+                    setGano(true)
+                    setSprite(5)
+                  }
+                }
+              }
 
-                        setGano(true)
-                        setSprite(5)
-                        
-                    }   
-                }
-            }
-            
-            
-            
-            const dataLaberinto = async() => {
+              const dataLaberinto = async () => {
                 const response = await fetch(`http://ubeje.xyz:3001/?type=json&w=${props.w}&h=${props.h}`)
                 const data = await response.json()
                 laberintoState(data)
-                
-            }
+              }
 
-            React.useEffect(() => {
-               dataLaberinto()
-               laberintoRef.current.focus()
-            }, [])
+              React.useEffect(() => {
+                dataLaberinto()
+                laberintoRef.current.focus()
+              }, [])
 
-            if (gano === true){
-                   console.log('vino')
-                   return(<GameFinished moves={contador}/>)
-               }
+              if (gano === true) {
+                return (<GameFinished moves={contador} />)
+              }
 
-            
-               
-               return(
-                   <div className="padre">
-                   <div style={laberintos} className="laberintos">
-                    {laberinto.map((row) => {
-                        return row.map((celda) => {
-
-                                    if (celda === '-'|| celda === '|' || celda === '+')
-                                    {
-                                        
-                                        return <Wall/>
-                                    } 
-                                    
-                                    else if (celda === ' '|| celda === 'p') 
-                                    {
-                                        
-                                        return <Wall2 />
-                                    }
-                                    else {
-                                        return <Winner/>
-                                    }
-                                    })                                  
-                        })}
-                    </div>
-                    <div tabIndex={0} style={laberintos} onKeyDown={handleClick} className="laberintos" role="button" ref={laberintoRef}>
-                    
+              return (
+                <div className="padre">
+                  <div style={laberintos} className="laberintos">
                     {laberinto.map((row) => row.map((celda) => {
+                      if (celda === '-' || celda === '|' || celda === '+') {
+                        return <Wall />
+                      } if (celda === ' ' || celda === 'p') {
+                        return <Wall2 />
+                      }
+                      return <Winner />
+                    }))}
+                  </div>
+                  <div tabIndex={0} style={laberintos} onKeyDown={handleClick} className="laberintos" role="button" ref={laberintoRef}>
+                    {laberinto.map((row) => row.map((celda) => {
+                      if (celda === 'p') {
+                        return <Player x={posicionx} y={posiciony} sprite={sprite} />
+                      }
+                      return <div className="default" />
+                    }))}
+                  </div>
 
-                                    if (celda === 'p'){
-                                        return <Player x={posicionx} y={posiciony} sprite={sprite}/> 
-                                    }
-                                    else {
-                                        return <div className="default"/>
-                                    }
-                                    })                                  
-                        )}
-                    </div>
-                    
-                    </div>
-               ) 
-           };
- 
-           const Title = () => (<h1 className="title">THE MAZE GAME</h1>)
-           
+                </div>
+              )
+};
 
-           const PlayMenu = (props) => (
-                   <div class="principal">
-                    <Title/>
-                    <input type="number" id="w" placeholder="width"/>
-                    <input type="number" id="h" placeholder="height"/>
-                    <button type="button" class="button" onClick={() => props.changeStatus(document.getElementById('w').value, document.getElementById('h').value, false)}>Play</button>
-                    <img  className="mario" alt="mario" src="https://media.tenor.com/images/b7829a42fd7da87b413784617717f9a0/tenor.gif" ></img>
-                    <h1 className="playw">YOU CAN PLAY WITH: </h1>
-                    <div className="arrow">
-                        <img src="arrow.png" alt="arrow" className="imagen1"/>
-                        <img src="wasd.png" alt="wasd" className="imagen2"/>
-                    </div>
-                    
-                   </div>
-               )
-           
+const Title = () => (<h1 className="title">THE MAZE GAME</h1>)
 
-           const Comprobador = () => {
-               const [change, setChange] = React.useState(true)
-               const [wid, setWid] = React.useState(0)
-               const [heig, setHeig] = React.useState(0)
-               
-               const changeStatus = (a, b, changes) => {
-                   setChange(changes)
-                   setWid(a)
-                   setHeig(b)
-                }
-               
-               //Mostrar menu 
-               if (change === true){
-                   return (
-                       <PlayMenu changeStatus={changeStatus}/>
-                         )
-                   
-               }
-               else {
-                   //Mostrar laberinto
-                   return (
-                       <App w={wid} h={heig} />
-                   )
-               }
-           }
+const PlayMenu = (props) => (
+              <div className="principal">
+                <Title />
+                <input type="number" id="w" placeholder="width" />
+                <input type="number" id="h" placeholder="height" />
+                <button type="button" className="button" onClick={() => props.changeStatus(document.getElementById('w').value, document.getElementById('h').value, false)}>Play</button>
+                <img className="mario" alt="mario" src="https://media.tenor.com/images/b7829a42fd7da87b413784617717f9a0/tenor.gif" />
+                <h1 className="playw">YOU CAN PLAY WITH: </h1>
+                <div className="arrow">
+                  <img src="arrow.png" alt="arrow" className="imagen1" />
+                  <img src="wasd.png" alt="wasd" className="imagen2" />
+                </div>
+
+              </div>
+            )
+
+const Comprobador = () => {
+              const [change, setChange] = React.useState(true)
+              const [wid, setWid] = React.useState(0)
+              const [heig, setHeig] = React.useState(0)
+
+              const changeStatus = (a, b, changes) => {
+                setChange(changes)
+                setWid(a)
+                setHeig(b)
+              }
+
+              // Mostrar menu
+              if (change === true) {
+                return (
+                  <PlayMenu changeStatus={changeStatus} />
+                )
+              }
+              // Mostrar laberinto
+              return (
+                <App w={wid} h={heig} />
+              )
+}
 
             ReactDOM.render(
-                <Comprobador />,
-                htmlRoot
-            ) 
+              <Comprobador />,
+              htmlRoot,
+            )
         </script>
     </body>
 </html>
