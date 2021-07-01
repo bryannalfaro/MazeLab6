@@ -128,7 +128,7 @@ const App = ({ w, h }) => {
               }
 
               const dataLaberinto = async () => {
-                const response = await fetch(`http://ubeje.xyz:3001/?type=json&w=${w}&h=${h}`)
+                const response = await fetch(`https://honest-minister-63037.herokuapp.com/maze?type=json&w=${w}&h=${h}`)
                 const data = await response.json()
                 laberintoState(data)
               }
