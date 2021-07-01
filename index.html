@@ -196,13 +196,16 @@ PlayMenu.propTypes = {
 
 const Comprobador = () => {
               const [change, setChange] = React.useState(true)
-              const [wid, setWid] = React.useState(0)
-              const [heig, setHeig] = React.useState(0)
+              const [wid, setWid] = React.useState(10)
+              const [heig, setHeig] = React.useState(10)
 
               const changeStatus = (a, b, changes) => {
                 setChange(changes)
-                setWid(a)
-                setHeig(b)
+                if(a && b !== undefined){
+                  setWid(a)
+                  setHeig(b)
+                }
+
               }
 
               // Mostrar menu
